@@ -535,3 +535,234 @@ h2 {
     background-color: #f21b3f;
   }
 }
+
+@media (max-width: 768px) {
+  .game-container {
+    width: 100%;
+    height: 100vh;
+    border-radius: 0;
+    border: none;
+    padding: 10px;
+  }
+
+  .hud {
+    top: 5px;
+    left: 5px;
+    right: 5px;
+    font-size: 1em;
+  }
+
+  .basket-icon {
+    width: 80px;
+    height: 80px;
+    margin-left: 0;
+  }
+
+  .location-grid {
+    grid-template-columns: repeat(1, 1fr);
+    gap: 10px;
+    max-width: 100%;
+  }
+
+  .location {
+    padding: 15px;
+    border-radius: 10px;
+  }
+
+  .location img {
+    width: 60px;
+    height: 60px;
+  }
+
+  .location p {
+    font-size: 0.9em;
+  }
+
+  .quiz-header {
+    margin-top: 40px;
+  }
+
+  #question-text {
+    font-size: 1.2em;
+  }
+
+  .helper-dialog {
+    font-size: 0.9em;
+  }
+
+  .options-container .btn-answer {
+    padding: 10px 16px;
+    font-size: 1em;
+  }
+
+  .word-block {
+    font-size: 1em;
+    padding: 6px 10px;
+    margin: 3px;
+  }
+
+  .drop-zone {
+    width: 70px;
+    height: 30px;
+    font-size: 1em;
+  }
+
+  .question-image {
+    max-width: 120px;
+  }
+
+  .dialogue-bubble {
+    padding: 12px;
+  }
+
+  #dialogue-text {
+    font-size: 0.9em;
+  }
+
+  #dialogue-choices button {
+    padding: 8px 14px;
+    font-size: 0.9em;
+  }
+
+  .result-content {
+    padding: 20px;
+  }
+
+  #final-score {
+    font-size: 1.6em;
+  }
+
+  .btn-primary {
+    padding: 10px 20px;
+    font-size: 1em;
+  }
+}
+
+/* !!! НОВЫЕ СТИЛИ ДЛЯ ОЧЕНЬ МАЛЕНЬКИХ ЭКРАНОВ (ТЕЛЕФОНЫ) !!! */
+/* Этот breakpoint срабатывает для экранов шириной 480px и меньше */
+@media (max-width: 480px) {
+  h1 {
+    font-size: 1.6em; /* Еще уменьшим */
+  }
+
+  h2 {
+    font-size: 1.2em; /* Еще уменьшим */
+  }
+
+  .hud {
+    font-size: 0.85em; /* Еще уменьшим */
+    top: 3px;
+    left: 3px;
+    right: 3px;
+  }
+
+  .score,
+  .timer {
+    padding: 3px 6px; /* Еще уменьшим */
+    font-size: 0.9em; /* Еще уменьшим */
+  }
+
+  .basket-icon {
+    width: 50px; /* Еще уменьшим */
+    height: 50px; /* Еще уменьшим */
+  }
+
+  .quiz-header {
+    margin-top: 30px; /* Еще уменьшим */
+  }
+
+  #question-text {
+    font-size: 1em; /* Еще уменьшим */
+  }
+
+  .helper-dialog {
+    font-size: 0.8em; /* Еще уменьшим */
+    min-height: 1.2em; /* Еще уменьшим */
+  }
+
+  #question-container,
+  .options-container {
+    padding: 12px; /* Еще уменьшим */
+    border-radius: 8px; /* Еще уменьшим */
+  }
+
+  .options-container .btn-answer {
+    font-size: 0.9em; /* Еще уменьшим */
+    padding: 8px 12px; /* Еще уменьшим */
+    max-width: 260px; /* Еще уменьшим */
+  }
+
+  .word-block {
+    font-size: 0.9em; /* Еще уменьшим */
+    padding: 5px 8px; /* Еще уменьшим */
+    margin: 2px; /* Еще уменьшим */
+  }
+
+  .drop-zone {
+    width: 55px; /* Еще уменьшим */
+    height: 25px; /* Еще уменьшим */
+    font-size: 0.9em; /* Еще уменьшим */
+  }
+
+  .question-image {
+    max-width: 80px; /* Еще уменьшим */
+  }
+
+  .dialogue-bubble {
+    padding: 8px; /* Еще уменьшим */
+    margin-bottom: 8px; /* Еще уменьшим */
+    max-width: 300px; /* Еще уменьшим */
+  }
+
+  #dialogue-character {
+    width: 40px; /* Еще уменьшим */
+    height: 40px; /* Еще уменьшим */
+    margin-right: 8px; /* Еще уменьшим */
+  }
+
+  #dialogue-text {
+    font-size: 0.8em; /* Еще уменьшим */
+  }
+
+  #dialogue-choices button {
+    font-size: 0.85em; /* Еще уменьшим */
+    padding: 6px 10px; /* Еще уменьшим */
+    max-width: 220px; /* Еще уменьшим */
+  }
+
+  .result-content {
+    padding: 12px; /* Еще уменьшим */
+    border-radius: 10px; /* Еще уменьшим */
+  }
+
+  #final-score {
+    font-size: 1.3em; /* Еще уменьшим */
+  }
+
+  .btn-primary {
+    font-size: 0.95em; /* Еще уменьшим */
+    padding: 8px 16px; /* Еще уменьшим */
+    margin-top: 10px; /* Еще уменьшим */
+  }
+
+  /* Корректировка анимаций для маленьких экранов */
+  @keyframes pulseGreen {
+    50% {
+      transform: scale(1.01);
+    }
+  }
+  @keyframes shakeRed {
+    20% {
+      transform: translateX(-4px);
+    }
+    40% {
+      transform: translateX(4px);
+    }
+    60% {
+      transform: translateX(-3px);
+    }
+    80% {
+      transform: translateX(3px);
+    }
+  }
+}
