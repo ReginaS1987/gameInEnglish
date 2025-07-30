@@ -1,0 +1,537 @@
+/*  ----  Общие стили  ----  */
+body {
+  font-family: "Comfortaa", cursive;
+  background-color: #f5fceb;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  color: #333;
+  overflow: hidden; /* Оставляем overflow: hidden на body, чтобы избежать полос прокрутки вне game-container */
+}
+
+.game-container {
+  width: 100%;
+  height: 100vh;
+  margin: 10px;
+  padding: 25px;
+  background-color: #08bdbd;
+  background-size: cover;
+  border-radius: 20px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+  position: relative; /* Остается relative для позиционирования внутренних элементов */
+  text-align: center;
+  overflow-y: auto; /* Разрешаем прокрутку внутри game-container, если контент не влезает */
+  overflow-x: hidden;
+  border: 5px solid #ffffff;
+  box-sizing: border-box;
+}
+
+h1,
+h2 {
+  color: #f21b3f;
+  text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.2);
+}
+
+h1 {
+  font-size: 2.5em;
+  margin-bottom: 15px;
+}
+
+h2 {
+  font-size: 1.8em;
+  margin-bottom: 20px;
+}
+
+/*  ----  Экраны  ----  */
+.screen {
+  display: none;
+  width: 100%;
+  height: 100%;
+  position: absolute; /* Экраны накладываются друг на друга */
+  top: 0;
+  left: 0;
+  padding: 20px;
+  box-sizing: border-box;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  overflow-y: auto; /* Разрешаем прокрутку внутри каждого экрана */
+  scrollbar-width: thin;
+  scrollbar-color: #abff4f #08bdbd;
+}
+
+.screen.active {
+  display: flex; /* Показываем только активный экран */
+}
+
+/*  ----  HUD  ----  */
+.hud {
+  /* position: absolute; */ /* Изменяем на fixed, чтобы HUD был привязан к окну просмотра */
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  right: 15px; /* Занимает всю ширину, оставляя отступы */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.3em;
+  font-weight: bold;
+  color: #ffffff;
+  z-index: 100; /* Устанавливаем z-index */
+}
+
+.score,
+.timer {
+  background-color: rgba(255, 255, 255, 0.7);
+  padding: 8px 15px;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  color: #f21b3f;
+  font-weight: bolder;
+  /* position: relative; <-- убираем, так как HUD уже fixed */
+  z-index: 1000; /* Убедимся, что эти элементы поверх HUD */
+}
+
+.basket-icon {
+  width: 140px;
+  height: 140px;
+  margin-left: 10px;
+  vertical-align: middle;
+}
+
+/*  ----  Главное Меню  ----  */
+.menu-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/*  ----  Экран Карты  ----  */
+.location-grid {
+  display: grid;
+  /*
+   * repeat(auto-fit, minmax(180px, 1fr)) - стандартный адаптивный подход.
+   * Если 4 блока не помещаются, они переносятся.
+   * Чтобы гарантировать 4 блока в ряду, пока это возможно,
+   * можно использовать repeat(4, 1fr) и настроить minmax для самих блоков.
+   * Но auto-fit лучше для адаптивности.
+   *
+   * Возможно, проблема в том, что max-width: 600px для location-grid
+   * не дает 4 блока поместиться, если они по 180px + gap.
+   * Давайте попробуем сделать grid-template-columns: repeat(2, 1fr)
+   * чтобы гарантировать 2 колонки, что в среднем будет 4 блока на широком экране
+   * и 2 на узком, и поможет избежать переноса "Кухни Пиканте" на следующую строку.
+   */
+  grid-template-columns: repeat(2, 1fr); /* Устанавливаем 2 колонки */
+  gap: 20px;
+  padding: 20px;
+  justify-content: center;
+  width: 100%;
+  max-width: 600px;
+}
+
+.location {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  padding: 25px;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  border: 3px solid transparent;
+}
+
+.location:hover {
+  transform: translateY(-8px) scale(1.08);
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.25);
+  border-color: #abff4f;
+}
+
+.location img {
+  width: 90px;
+  height: 90px;
+  margin-bottom: 8px;
+  filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+.location p {
+  margin: 0;
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #29bf12;
+}
+
+/*  ----  Экран Викторины  ----  */
+.quiz-header {
+  margin-bottom: 25px;
+  padding-bottom: 15px;
+  border-bottom: 3px dashed #ffffff;
+  width: 100%;
+  max-width: 600px;
+  box-sizing: border-box;
+  margin-top: 70px; /* Добавляем отступ сверху, чтобы избежать перекрытия с HUD */
+}
+
+.helper-dialog {
+  font-style: italic;
+  color: #ffffff;
+  min-height: 2.5em;
+  font-size: 1.1em;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 600px;
+  box-sizing: border-box;
+}
+
+#question-container {
+  margin-bottom: 30px;
+  background-color: rgba(255, 255, 255, 0.95);
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.15);
+  border: 3px solid #f21b3f;
+  width: 100%;
+  max-width: 600px;
+  box-sizing: border-box;
+  /* margin-top: 70px;  Альтернативный вариант: добавляем отступ здесь */
+}
+
+#question-text {
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #f21b3f;
+}
+
+/*  ----  Общие стили для блоков вопросов (кнопки, dnd, диалоги)  ----  */
+.options-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 600px;
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.15);
+  box-sizing: border-box;
+}
+
+/*  ----  Стили для кнопок ответов  ----  */
+.options-container .btn-answer {
+  display: block;
+  width: 100%;
+  max-width: 380px;
+  padding: 15px 25px;
+  margin: 10px auto;
+  border: none;
+  background-color: #29bf12;
+  color: white;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 1.2em;
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  white-space: normal;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.options-container .btn-answer:hover {
+  background-color: #abff4f;
+  transform: scale(1.05);
+  color: #f21b3f;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.options-container .btn-answer.correct {
+  background-color: #abff4f;
+  color: #f21b3f;
+  animation: pulseGreen 0.7s forwards;
+}
+
+.options-container .btn-answer.incorrect {
+  background-color: #f21b3f;
+  color: white;
+  animation: shakeRed 0.7s forwards;
+}
+
+/*  ----  Стили для DRAG-AND-DROP  ----  */
+.dnd-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.word-block-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 15px;
+  min-height: 60px;
+  padding: 10px;
+  border: 2px dashed #f21b3f;
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.7);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.word-block {
+  background-color: #f21b3f;
+  border: 3px solid #ffffff;
+  border-radius: 10px;
+  padding: 10px 18px;
+  margin: 7px;
+  cursor: grab;
+  font-size: 1.2em;
+  font-weight: bold;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.3s ease;
+  user-select: none;
+  white-space: nowrap;
+  color: white;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+
+.word-block.dragging {
+  transform: scale(1.15) rotate(5deg);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+  background-color: #abff4f;
+  color: #f21b3f;
+  opacity: 0.9;
+}
+
+.drop-zone-wrapper {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 15px;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.drop-zone {
+  width: 120px;
+  height: 50px;
+  border: 3px dashed #abff4f;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2em;
+  font-weight: bold;
+  background-color: rgba(255, 255, 255, 0.7);
+  transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  color: #f21b3f;
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+.drop-zone.drag-over {
+  background-color: #cff0cf;
+  border-color: #29bf12;
+  box-shadow: 0 0 15px rgba(41, 191, 18, 0.6);
+}
+
+.drop-zone.correct-drop {
+  background-color: #abff4f;
+  border-color: #29bf12;
+  box-shadow: 0 0 15px rgba(41, 191, 18, 0.6);
+  color: #f21b3f;
+}
+
+.drop-zone.incorrect-drop {
+  background-color: #f21b3f;
+  border-color: #ffffff;
+  color: white;
+  box-shadow: 0 0 15px rgba(242, 27, 63, 0.6);
+}
+
+.drop-zone.filled {
+  background-color: #cff0cf;
+  border-color: #29bf12;
+  color: #f21b3f;
+  font-weight: bold;
+  cursor: default;
+}
+
+.question-image {
+  max-width: 200px;
+  height: auto;
+  margin-bottom: 15px;
+  border: 4px solid #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+/*  ----  Стили для ДИАЛОГА  ----  */
+.dialogue-bubble {
+  display: flex;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+  margin-bottom: 20px;
+  width: 100%;
+  max-width: 450px;
+  border: 4px solid #29bf12;
+  box-sizing: border-box;
+}
+
+#dialogue-character {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  margin-right: 20px;
+  border: 5px solid #f21b3f;
+  object-fit: cover;
+  background-color: white;
+}
+
+#dialogue-text {
+  font-size: 1.2em;
+  text-align: left;
+  color: #f21b3f;
+  font-weight: bold;
+  flex-grow: 1;
+}
+
+#dialogue-choices {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 600px;
+}
+
+#dialogue-choices button {
+  width: 100%;
+  max-width: 300px;
+  margin: 8px auto;
+  background-color: #08bdbd;
+  border-color: #08bdbd;
+  color: white;
+  font-weight: bold;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  white-space: normal;
+  text-align: center;
+  padding: 15px 20px;
+  font-size: 1.15em;
+  box-sizing: border-box;
+}
+
+#dialogue-choices button:hover {
+  background-color: #059f9f;
+  color: white;
+}
+
+/*  ----  Экран Результатов  ----  */
+.result-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 35px;
+  border-radius: 20px;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+  border: 5px solid #abff4f;
+  width: 100%;
+  max-width: 500px;
+  box-sizing: border-box;
+}
+
+.result-content h2 {
+  margin-bottom: 20px;
+  color: #29bf12;
+}
+
+#result-message {
+  font-size: 1.2em;
+  margin-bottom: 25px;
+  color: #f21b3f;
+  font-weight: bold;
+}
+
+#final-score {
+  font-size: 2.2em;
+  color: #08bdbd;
+  font-weight: bolder;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+/*  ----  Общие Кнопки  ----  */
+.btn-primary {
+  background-color: #f21b3f;
+  color: white;
+  padding: 15px 30px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 1.3em;
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.25);
+  margin-top: 20px;
+  box-sizing: border-box;
+}
+
+.btn-primary:hover {
+  background-color: #d40d2c;
+  transform: translateY(-3px) scale(1.08);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.35);
+}
+
+/*  ----  Анимации (для обратной связи)  ----  */
+@keyframes pulseGreen {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+  }
+  50% {
+    transform: scale(1.05);
+    background-color: #abff4f;
+    color: #f21b3f;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  }
+  100% {
+    transform: scale(1);
+    background-color: #abff4f;
+    color: #f21b3f;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+  }
+}
+
+@keyframes shakeRed {
+  0% {
+    transform: translateX(0);
+    background-color: #f21b3f;
+  }
+  20% {
+    transform: translateX(-12px);
+    background-color: #f21b3f;
+  }
+  40% {
+    transform: translateX(12px);
+    background-color: #f21b3f;
+  }
+  60% {
+    transform: translateX(-7px);
+    background-color: #f21b3f;
+  }
+  80% {
+    transform: translateX(7px);
+    background-color: #f21b3f;
+  }
+  100% {
+    transform: translateX(0);
+    background-color: #f21b3f;
+  }
+}

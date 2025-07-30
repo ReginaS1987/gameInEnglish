@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Кулинарные Тайны Профессора Пиканте</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="game-container">
+      <!--  ===========  HEADS-UP DISPLAY (HUD)  =========== -->
+      <div class="hud">
+        <div class="score">Score: <span id="score-value">0</span></div>
+        <div class="timer">Time: <span id="time-left">60</span></div>
+        <div class="ingredient-basket">
+          <!--  Сюда будут добавляться иконки собранных ингредиентов (JS)  -->
+          <img src="/images/icons/basket.png" alt="Ingredient Basket" class="basket-icon" />
+        </div>
+      </div>
+
+      <!--  ===========  ГЛАВНЫЙ ЭКРАН (Меню)  =========== -->
+      <div id="main-menu" class="screen active">
+        <div class="menu-content">
+          <h1>Кулинарные Тайны Профессора Пиканте</h1>
+          <button id="start-game-button" class="btn-primary">Начать Игру</button>
+          <!--  Кнопка настроек (позже)  -->
+        </div>
+      </div>
+
+      <!--  ===========  ЭКРАН КАРТЫ  =========== -->
+      <div id="map-screen" class="screen">
+        <h2>Выберите Локацию:</h2>
+        <div class="location-grid">
+          <div class="location" data-location="vegetableShop" id="loc-veg">
+            <img src="images/icons/veget.png" alt="Овощная Лавка" />
+            <p>Овощная Лавка</p>
+          </div>
+          <div class="location" data-location="fruitGarden" id="loc-fruit">
+            <img src="images/icons/fruits.png" alt="Фруктовый Сад" />
+            <p>Фруктовый Сад</p>
+          </div>
+          <div class="location" data-location="sweetBakery" id="loc-sweet">
+            <img src="images/icons/bakery.png" alt="Пекарня Сладостей" />
+            <p>Пекарня Сладостей</p>
+          </div>
+          <div class="location" data-location="picantesKitchen" id="loc-picante">
+            <img src="images/icons/chef.png" alt="Кухня Профессора Пиканте" />
+            <p>Кухня Пиканте</p>
+          </div>
+        </div>
+      </div>
+
+      <!--  ===========  ЭКРАН ВИКТОРИНЫ  =========== -->
+      <div id="quiz-screen" class="screen">
+        <div class="quiz-header">
+          <h2 id="quiz-title"></h2>
+          <p id="helper-dialog" class="helper-dialog"></p>
+          <!-- Для подсказок -->
+        </div>
+
+        <div id="question-container">
+          <p id="question-text"></p>
+          <!-- !!! ДОБАВЛЯЕМ НОВЫЙ IMG ТЕГ ДЛЯ VOCABULARY/GRAMMAR !!! -->
+          <!-- Изначально скрыт, будет показан только в showGrammarVocabularyQuestion -->
+          <img id="vocabulary-image" src="" alt="Question Image" class="question-image" style="display: none" />
+        </div>
+
+        <!--  ===========  БЛОК С ОТВЕТАМИ (Grammar/Vocabulary)  =========== -->
+        <div id="answer-options-container" class="options-container">
+          <!--  Кнопки ответов будут добавляться сюда (JS)  -->
+        </div>
+        <!--  ===========  DRAG-AND-DROP  =========== -->
+        <div id="drag-and-drop-container" class="options-container">
+          <!-- !!! ЭТОТ IMG ТЕГ ИСПОЛЬЗУЕТСЯ ТОЛЬКО ДЛЯ DRAG-AND-DROP !!! -->
+          <img id="drag-and-drop-image" src="" alt="Question Image" class="question-image" />
+          <div class="dnd-wrapper">
+            <div class="word-block-wrapper">
+              <!--  Слова для перетаскивания (JS)  -->
+            </div>
+            <div class="drop-zone-wrapper">
+              <!--  Зоны для "бросания" слов (JS)  -->
+            </div>
+          </div>
+        </div>
+
+        <!--  ===========  ДИАЛОГ  =========== -->
+        <div id="dialogue-container" class="options-container">
+          <div class="dialogue-bubble">
+            <img id="dialogue-character" src="images/characters/chef.png" alt="Character" />
+            <p id="dialogue-text"></p>
+          </div>
+          <div id="dialogue-choices">
+            <!--  Кнопки вариантов ответа (JS)  -->
+          </div>
+        </div>
+      </div>
+
+      <!--  ===========  ЭКРАН РЕЗУЛЬТАТОВ  =========== -->
+      <div id="result-screen" class="screen">
+        <div class="result-content">
+          <h2>Ты отлично справился!</h2>
+          <p id="result-message"></p>
+          <p>Твой финальный счет: <span id="final-score">0</span></p>
+          <button id="restart-button" class="btn-primary">Сыграть Снова</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
