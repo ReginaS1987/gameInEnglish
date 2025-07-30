@@ -17,6 +17,7 @@ body {
   margin: 10px;
   padding: 25px;
   background: url("/images/icons/basket.png");
+
   background-size: cover;
   border-radius: 20px;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
