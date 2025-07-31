@@ -281,6 +281,17 @@ h2 {
   width: 100%;
   box-sizing: border-box;
 }
+#vocabulary-image,
+#drag-and-drop-image {
+  display: block;
+  max-width: 100px;
+  height: auto;
+  margin: 15px auto; /* Объединяем margin-top и margin-bottom с центрированием */
+  border: 4px solid #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  object-fit: cover;
+}
 
 .word-block {
   background-color: #f21b3f;
@@ -641,6 +652,9 @@ h2 {
 /* !!! НОВЫЕ СТИЛИ ДЛЯ ОЧЕНЬ МАЛЕНЬКИХ ЭКРАНОВ (ТЕЛЕФОНЫ) !!! */
 /* Этот breakpoint срабатывает для экранов шириной 480px и меньше */
 @media (max-width: 480px) {
+  .game-container {
+    background-position: center;
+  }
   h1 {
     font-size: 1.6em; /* Еще уменьшим */
   }

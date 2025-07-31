@@ -27,6 +27,7 @@ const dragAndDropContainer = document.getElementById("drag-and-drop-container");
 const wordBlockContainer = document.querySelector(".word-block-wrapper");
 const dropZoneContainer = document.querySelector(".drop-zone-wrapper");
 const dragAndDropImageElement = document.getElementById("drag-and-drop-image"); // Элемент для изображения в D&D
+const vocabularyImageElement = document.getElementById("vocabulary-image"); // Элемент для изображения в Vocabulary
 
 const dialogueContainer = document.getElementById("dialogue-container");
 const dialogueCharacterElement = document.getElementById("dialogue-character");
@@ -50,14 +51,14 @@ const quizzes = {
         question: "There ____  carrots in the basket.",
         answers: ["is", "are"],
         correctAnswer: "are",
-        helper: "Используем 'are' для множественного числа.",
+        helper: "Use 'are' for plural number. ",
       },
       {
         type: "grammar", // some/any
         question: "Is there ____ tomatoes on the table?",
         answers: ["some", "any"],
         correctAnswer: "any",
-        helper: "В вопросах чаще используем 'any'.",
+        helper: "Use 'any' in negatives and questions. ",
       },
       {
         type: "vocabulary", // food/vegetable
@@ -65,12 +66,12 @@ const quizzes = {
         image: "images/icons/tomato.png",
         answers: ["Tomato", "Apple", "Cake", "Milk"],
         correctAnswer: "Tomato",
-        helper: "Угадай, что это за овощ!",
+        helper: "Guess what's in the photo! ",
       },
       {
         type: "drag-and-drop", // Составление предложения
         text: "Составьте предложение:", // Используется в questionTextElement
-        words: ["There", "are", "some", "tomatoes", "on", "the", "table."],
+        words: ["tomatoes", "are", "the", "There", "on", "some", "table."],
         correctOrder: ["There", "are", "some", "tomatoes", "on", "the", "table."],
         helper: "Помоги собрать правильное предложение!",
       },
@@ -84,7 +85,7 @@ const quizzes = {
         question: "I'd like ____ apple, please.",
         answers: ["a", "an"],
         correctAnswer: "an",
-        helper: "'Apple' начинается с гласной, поэтому используем 'an'.",
+        helper: "We use 'an' with words that begin with a,e,i,o,u, and the silent letter h. ",
       },
       {
         type: "vocabulary", // fruit
@@ -92,7 +93,6 @@ const quizzes = {
         image: "images/icons/apple.png",
         answers: ["Fruit", "Vegetable"],
         correctAnswer: "Fruit",
-        helper: "Яблоко - это фрукт!",
       },
       {
         type: "dialogue", // I'd like...
@@ -112,7 +112,14 @@ const quizzes = {
         question: "Shall we have ____ cake?",
         answers: ["some", "any"],
         correctAnswer: "some",
-        helper: "В предложении-предложении часто используется 'some'.",
+        helper: "Use the phrases Shall we? to make suggestions. ",
+      },
+      {
+        type: "grammar", // some/any
+        question: "How about ____ tea ?",
+        answers: ["some", "any"],
+        correctAnswer: "some",
+        helper: "Use the phrases How about? to make suggestions. ",
       },
       {
         type: "vocabulary", // junk food
@@ -120,14 +127,14 @@ const quizzes = {
         image: "images/icons/cookie.png",
         answers: ["Cookie", "Broccoli", "Carrot", "Orange"],
         correctAnswer: "Cookie",
-        helper: "Это сладкое лакомство - вредная еда!",
+        helper: "Guess, what's in the photo!",
       },
       {
         type: "grammar", // there is/are
         question: "There ____ many cookies in the jar.",
         answers: ["is", "are"],
         correctAnswer: "are",
-        helper: "'Cookies' - это много, значит 'are'.",
+        helper: "Use 'are' for plural number. ",
       },
     ],
   },
@@ -138,8 +145,8 @@ const quizzes = {
         type: "grammar", // Negative sentence
         question: "There ____ any healthy food here.",
         answers: ["is not", "are not"],
-        correctAnswer: "is not", // Assuming "food" is uncountable here, so "is not"
-        helper: "Слово 'food' часто используется как неисчисляемое, поэтому 'is not'.",
+        correctAnswer: "is not",
+        helper: " 'food' is uncountable here, so 'is not.",
       },
       {
         type: "vocabulary", // Junk food vs Healthy
@@ -147,7 +154,7 @@ const quizzes = {
         image: "images/icons/burger.png",
         answers: ["Burger", "Apple", "Carrot", "Broccoli"],
         correctAnswer: "Burger",
-        helper: "Бургер - это пример вредной еды!",
+        helper: "Burger - is a junk food!",
       },
       {
         type: "dialogue", // Asking for food
@@ -156,6 +163,13 @@ const quizzes = {
         choices: ["Shall we have a burger?", "I'd like a burger.", "Is there a burger?"],
         correctAnswer: "I'd like a burger.",
         helper: "Как Профессор Пиканте может выразить свое желание?",
+      },
+      {
+        type: "drag-and-drop", // Составление предложения
+        text: "Составьте предложение:", // Используется в questionTextElement
+        words: ["about", "for", "How", "sausages", "eggs", "and", "breakfast? "],
+        correctOrder: ["How", "about", "sausages", "and", "eggs", "for", "breakfast? "],
+        helper: "Помоги собрать правильное предложение!",
       },
     ],
   },
@@ -214,6 +228,7 @@ function showQuestion() {
   answerOptionsContainer.style.display = "none";
   dragAndDropContainer.style.display = "none";
   dialogueContainer.style.display = "none";
+  vocabularyImageElement.style.display = "none"; // Hide vocabulary image by default
 
   // Очистить предыдущие элементы внутри контейнеров
   answerOptionsContainer.innerHTML = "";
@@ -265,13 +280,13 @@ function showGrammarVocabularyQuestion(questionData) {
 
   // Устанавливаем источник изображения и показываем/скрываем его в зависимости от наличия
   if (questionData.image) {
-    dragAndDropImageElement.src = questionData.image;
-    dragAndDropImageElement.style.display = "block";
+    vocabularyImageElement.src = questionData.image;
+    vocabularyImageElement.style.display = "block"; // Show image for vocabulary
     console.log(
-      `DEBUG: Set src for vocab: ${dragAndDropImageElement.src}, display: ${dragAndDropImageElement.style.display}`
+      `DEBUG: Set src for vocab: ${vocabularyImageElement.src}, display: ${vocabularyImageElement.style.display}`
     ); // <-- Добавлено
   } else {
-    dragAndDropImageElement.style.display = "none";
+    vocabularyImageElement.style.display = "none";
     console.log("DEBUG: Hiding image for vocab (no image path)"); // <-- Добавлено
   }
 
